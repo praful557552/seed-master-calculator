@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Master | Smart Farm Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#10b981">
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: blur(10px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #34d399, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .settings-details summary {
+            cursor: pointer;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            user-select: none;
+            font-weight: 600;
+        }
+
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .primary-btn:active {
+            transform: scale(0.98);
+            background: var(--primary-dark);
+        }
+
+        .result-section.hidden {
+            display: none;
+        }
+
+        .result-section {
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 78, 59, 0.1) 100%);
+            border-color: var(--primary);
+            text-align: center;
+        }
+
+        .result-card h3 {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .big-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .breakdown {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 8px;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.8rem;
+            margin-top: auto;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .install-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .install-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .install-btn.hidden {
+            display: none;
+        }
+
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .calculators-grid {
+                grid-template-columns: 1fr 1fr;
+                align-items: start;
+            }
+        }
+
+        .calculator-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Collapsible Styles */
+        .calc-toggle {
+            cursor: pointer;
+            user-select: none;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .calc-toggle:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .calc-toggle::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .calc-toggle.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .calc-content {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .calc-content.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">🌱 Seed Master</div>
+            <p class="subtitle">Precision Farming Calculator</p>
+            <button id="installBtn" class="install-btn hidden">📲 Install App</button>
+        </header>
+
+        <main>
+            <div class="calculators-grid">
+                <!-- Seed Calculator Column -->
+                <div class="calculator-column">
+                    <section class="card input-card">
+                        <h2 id="seedToggle" class="calc-toggle collapsed">Seed Calculator</h2>
+
+                        <div id="seedContent" class="calc-content hidden">
+                            <div style="margin-top: 16px;">
+                                <div class="input-group">
+                                    <label for="landSize">Land Size (Acres)</label>
+                                    <input type="number" id="landSize" value="1" min="0.1" step="0.1">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="rowDist">Line To Line distance (ft)</label>
+                                    <input type="number" id="rowDist" placeholder="e.g. 2" step="0.5">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="plantDist">Plant to Plant distance (ft)</label>
+                                    <input type="number" id="plantDist" placeholder="e.g. 1" step="0.5">
+                                </div>
+
+                                <!-- Advanced Settings (Collapsible) -->
+                                <details class="settings-details">
+                                    <summary>Advanced Settings ⚙️</summary>
+                                    <div class="card settings-card">
+                                        <div class="input-group">
+                                            <label for="seedsPerGram">Seeds per Gram (A)</label>
+                                            <input type="number" id="seedsPerGram" value="10">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="gramsPerPouch">Grams per Pouch (B)</label>
+                                            <input type="number" id="gramsPerPouch" value="450">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="seedRatio">Seed Ratio (F)</label>
+                                            <input type="number" id="seedRatio" value="2" step="0.1">
+                                            <small>Safety factor for germination</small>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <!-- Action Button -->
+                                <button id="calcBtn" class="primary-btn">Calculate Seeds</button>
+
+                                <!-- Results Section -->
+                                <section id="resultSection" class="result-section hidden" style="margin-top: 24px;">
+                                    <div class="card result-card">
+                                        <h3>Pouches Needed</h3>
+                                        <div class="big-number" id="pouchResult">0</div>
+
+                                        <div class="breakdown">
+                                            <div class="breakdown-item">
+                                                <span>Total Seeds (N)</span>
+                                                <strong id="totalSeeds">0</strong>
+                                            </div>
+                                            <div class="breakdown-item">
+                                                <span>Seeds/Pouch (Q)</span>
+                                                <strong id="seedsPerPouch">0</strong>
+                                            </div>
+                                            <div class="breakdown-item">
+                                                <span>Total Grams</span>
+                                                <strong id="totalGrams">0</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Yield Calculator Column -->
+                <div class="calculator-column">
+                    <section class="card input-card">
+                        <h2 id="yieldToggle" class="calc-toggle collapsed">Yield Calculator</h2>
+
+                        <div id="yieldContent" class="calc-content hidden">
+                            <div style="margin-top: 16px;">
+                                <div class="input-group">
+                                    <label for="yieldLandSize">Land Size (Acres)</label>
+                                    <input type="number" id="yieldLandSize" value="1" min="0.1" step="0.1">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="yieldRowDist">Line To Line distance (ft)</label>
+                                    <input type="number" id="yieldRowDist" placeholder="e.g. 2" step="0.5">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="yieldPlantDist">Plant to Plant distance (ft)</label>
+                                    <input type="number" id="yieldPlantDist" placeholder="e.g. 1" step="0.5">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="bollWeight">10 Boll Cotton Weight (gm)</label>
+                                    <input type="number" id="bollWeight" value="40" step="1">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="avgBolls">Average Bolls on Plant</label>
+                                    <input type="number" id="avgBolls" placeholder="e.g. 20" step="1">
+                                </div>
+
+                                <button id="yieldCalcBtn" class="primary-btn">Calculate Yield</button>
+
+                                <section id="yieldResultSection" class="result-section hidden"
+                                    style="margin-top: 24px;">
+                                    <div class="card result-card">
+                                        <h3>Total Yield</h3>
+                                        <div class="big-number" id="yieldResult">0 Q</div>
+
+                                        <div class="breakdown">
+                                            <div class="breakdown-item">
+                                                <span>Yield per Acre</span>
+                                                <strong id="yieldPerAcre">0 Q</strong>
+                                            </div>
+                                            <div class="breakdown-item">
+                                                <span>Total Yield (Mann)</span>
+                                                <strong id="yieldMann">0 મણ</strong>
+                                            </div>
+                                            <div class="breakdown-item">
+                                                <span>Total Plants</span>
+                                                <strong id="totalPlants">0</strong>
+                                            </div>
+                                            <div class="breakdown-item">
+                                                <span>Total Bolls</span>
+                                                <strong id="totalBolls">0</strong>
+                                            </div>
+                                            <div class="breakdown-item">
+                                                <span>1 Boll Weight</span>
+                                                <strong id="oneBollWeight">0 g</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 Seed Master App</p>
+            <p style="margin-top: 5px; font-weight: 600; color: var(--primary);">SHIVAM AGRI BUSINESS CENTER ,
+                8347605837</p>
+        </footer>
+    </div>
+
+    <script>
+        // Constants
+        const SQFEET_PER_ACRE = 43560; // C
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const calcBtn = document.getElementById('calcBtn');
+            const yieldCalcBtn = document.getElementById('yieldCalcBtn');
+            const installBtn = document.getElementById('installBtn');
+
+            // Collapsible Logic
+            const seedToggle = document.getElementById('seedToggle');
+            const seedContent = document.getElementById('seedContent');
+            const yieldToggle = document.getElementById('yieldToggle');
+            const yieldContent = document.getElementById('yieldContent');
+
+            function toggleSection(toggleEl, contentEl) {
+                const isHidden = contentEl.classList.contains('hidden');
+                if (isHidden) {
+                    contentEl.classList.remove('hidden');
+                    toggleEl.classList.remove('collapsed');
+                } else {
+                    contentEl.classList.add('hidden');
+                    toggleEl.classList.add('collapsed');
+                }
+            }
+
+            seedToggle.addEventListener('click', () => toggleSection(seedToggle, seedContent));
+            yieldToggle.addEventListener('click', () => toggleSection(yieldToggle, yieldContent));
+
+            calcBtn.addEventListener('click', calculate);
+            yieldCalcBtn.addEventListener('click', calculateYield);
+
+            // PWA Install Logic
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.classList.remove('hidden');
+            });
+
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        function calculate() {
+            // Inputs
+            const P = parseFloat(document.getElementById('landSize').value) || 0;
+            const D = parseFloat(document.getElementById('rowDist').value) || 0;
+            const E = parseFloat(document.getElementById('plantDist').value) || 0;
+
+            // Settings
+            const A = parseFloat(document.getElementById('seedsPerGram').value) || 10;
+            const B = parseFloat(document.getElementById('gramsPerPouch').value) || 450;
+            const F = parseFloat(document.getElementById('seedRatio').value) || 2;
+
+            // Validation
+            if (P <= 0 || D <= 0 || E <= 0) {
+                alert('Please enter valid positive numbers for Land Size, Line To Line distance, and Plant to Plant distance.');
+                return;
+            }
+
+            // Calculation Logic
+            // 1. L (Plant Area sqft) = D * E
+            const L = D * E;
+
+            // 2. K (Total Land sqft) = P * C
+            const K = P * SQFEET_PER_ACRE;
+
+            // 3. N (Total Seeds needed) = (K / L) * F
+            const numberOfPlants = K / L;
+            const N = numberOfPlants * F;
+
+            // 4. Q (Seeds per Pouch) = A * B
+            const Q = A * B;
+
+            // 5. Total Pouches = N / Q
+            const totalPouches = N / Q;
+
+            // Additional Stats
+            const totalGrams = N / A;
+
+            // Display Results
+            displayResults(totalPouches, N, Q, totalGrams);
+        }
+
+        function displayResults(pouches, totalSeeds, seedsPerPouch, totalGrams) {
+            const resultSection = document.getElementById('resultSection');
+            const pouchResult = document.getElementById('pouchResult');
+            const totalSeedsEl = document.getElementById('totalSeeds');
+            const seedsPerPouchEl = document.getElementById('seedsPerPouch');
+            const totalGramsEl = document.getElementById('totalGrams');
+
+            // Format numbers
+            pouchResult.textContent = pouches.toFixed(2);
+            totalSeedsEl.textContent = Math.round(totalSeeds).toLocaleString();
+            seedsPerPouchEl.textContent = Math.round(seedsPerPouch).toLocaleString();
+            totalGramsEl.textContent = totalGrams.toFixed(1) + ' g';
+
+            // Show section
+            resultSection.classList.remove('hidden');
+
+            // Scroll to result
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function calculateYield() {
+            // Inputs
+            const landSize = parseFloat(document.getElementById('yieldLandSize').value) || 0;
+            const rowDist = parseFloat(document.getElementById('yieldRowDist').value) || 0;
+            const plantDist = parseFloat(document.getElementById('yieldPlantDist').value) || 0;
+            const bollWeight10 = parseFloat(document.getElementById('bollWeight').value) || 0;
+            const avgBolls = parseFloat(document.getElementById('avgBolls').value) || 0;
+
+            // Validation
+            if (landSize <= 0 || rowDist <= 0 || plantDist <= 0 || bollWeight10 <= 0 || avgBolls <= 0) {
+                alert('Please enter valid positive numbers for all Yield Calculator fields.');
+                return;
+            }
+
+            // Calculation Logic
+            // 1. Total Plants
+            const plantArea = rowDist * plantDist;
+            const totalLandSqFt = landSize * SQFEET_PER_ACRE;
+            const totalPlants = totalLandSqFt / plantArea;
+
+            // 2. Total Bolls
+            const totalBolls = totalPlants * avgBolls;
+
+            // 3. One Boll Weight (gm)
+            const oneBollWeight = bollWeight10 / 10;
+
+            // 4. Total Yield (gm)
+            const totalYieldGm = totalBolls * oneBollWeight;
+
+            // 5. Total Yield (Quintal)
+            // 1 Quintal = 100 kg = 100,000 gm
+            const totalYieldQuintal = totalYieldGm / 100000;
+            const yieldPerAcre = totalYieldQuintal / landSize;
+
+            // 6. Total Yield (Mann)
+            // 1 Quintal = 100 kg, 1 Mann = 20 kg => 1 Quintal = 5 Mann
+            const totalYieldMann = totalYieldQuintal * 5;
+
+            // Display Results
+            displayYieldResults(totalYieldQuintal, yieldPerAcre, totalPlants, totalBolls, oneBollWeight, totalYieldMann);
+        }
+
+        function displayYieldResults(totalYield, yieldPerAcre, totalPlants, totalBolls, oneBollWeight, totalYieldMann) {
+            const resultSection = document.getElementById('yieldResultSection');
+            const yieldResult = document.getElementById('yieldResult');
+            const yieldPerAcreEl = document.getElementById('yieldPerAcre');
+            const yieldMannEl = document.getElementById('yieldMann');
+            const totalPlantsEl = document.getElementById('totalPlants');
+            const totalBollsEl = document.getElementById('totalBolls');
+            const oneBollWeightEl = document.getElementById('oneBollWeight');
+
+            // Format numbers
+            yieldResult.textContent = totalYield.toFixed(2) + ' Q';
+            yieldPerAcreEl.textContent = yieldPerAcre.toFixed(2) + ' Q';
+            yieldMannEl.textContent = totalYieldMann.toFixed(2) + ' મણ';
+            totalPlantsEl.textContent = Math.round(totalPlants).toLocaleString();
+            totalBollsEl.textContent = Math.round(totalBolls).toLocaleString();
+            oneBollWeightEl.textContent = oneBollWeight.toFixed(2) + ' g';
+
+            // Show section
+            resultSection.classList.remove('hidden');
+
+            // Scroll to result
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+
+</html>
