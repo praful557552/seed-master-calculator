@@ -7,7 +7,9 @@
     <title>Seed Master | Smart Farm Calculator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap"
+        rel="stylesheet">
     <meta name="theme-color" content="#10b981">
     <style>
         :root {
@@ -25,7 +27,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Outfit', 'Noto Sans Gujarati', 'Noto Sans Devanagari', sans-serif;
         }
 
         body {
@@ -48,6 +50,29 @@
         header {
             text-align: center;
             margin-bottom: 10px;
+            position: relative;
+        }
+
+        .lang-select-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .lang-select {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .lang-select option {
+            background: #1e293b;
+            color: white;
         }
 
         .logo {
@@ -294,9 +319,16 @@
 <body>
     <div class="app-container">
         <header>
-            <div class="logo">🌱 Seed Master</div>
-            <p class="subtitle">Precision Farming Calculator</p>
-            <button id="installBtn" class="install-btn hidden">📲 Install App</button>
+            <div class="lang-select-container">
+                <select id="languageSelector" class="lang-select">
+                    <option value="en">English</option>
+                    <option value="gu">ગુજરાતી</option>
+                    <option value="hi">हिंदी</option>
+                </select>
+            </div>
+            <div class="logo" data-i18n="appTitle">🌱 Seed Master</div>
+            <p class="subtitle" data-i18n="subtitle">Precision Farming Calculator</p>
+            <button id="installBtn" class="install-btn hidden" data-i18n="installApp">📲 Install App</button>
         </header>
 
         <main>
@@ -304,65 +336,69 @@
                 <!-- Seed Calculator Column -->
                 <div class="calculator-column">
                     <section class="card input-card">
-                        <h2 id="seedToggle" class="calc-toggle collapsed">Seed Calculator</h2>
+                        <h2 id="seedToggle" class="calc-toggle collapsed" data-i18n="seedCalculator">Seed Calculator
+                        </h2>
 
                         <div id="seedContent" class="calc-content hidden">
                             <div style="margin-top: 16px;">
                                 <div class="input-group">
-                                    <label for="landSize">Land Size (Acres)</label>
+                                    <label for="landSize" data-i18n="landSize">Land Size (Acres)</label>
                                     <input type="number" id="landSize" value="1" min="0.1" step="0.1">
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="rowDist">Line To Line distance (ft)</label>
+                                    <label for="rowDist" data-i18n="rowDist">Line To Line distance (ft)</label>
                                     <input type="number" id="rowDist" placeholder="e.g. 2" step="0.5">
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="plantDist">Plant to Plant distance (ft)</label>
+                                    <label for="plantDist" data-i18n="plantDist">Plant to Plant distance (ft)</label>
                                     <input type="number" id="plantDist" placeholder="e.g. 1" step="0.5">
                                 </div>
 
                                 <!-- Advanced Settings (Collapsible) -->
                                 <details class="settings-details">
-                                    <summary>Advanced Settings ⚙️</summary>
+                                    <summary data-i18n="advancedSettings">Advanced Settings ⚙️</summary>
                                     <div class="card settings-card">
                                         <div class="input-group">
-                                            <label for="seedsPerGram">Seeds per Gram (A)</label>
+                                            <label for="seedsPerGram" data-i18n="seedsPerGram">Seeds per Gram
+                                                (A)</label>
                                             <input type="number" id="seedsPerGram" value="10">
                                         </div>
                                         <div class="input-group">
-                                            <label for="gramsPerPouch">Grams per Pouch (B)</label>
+                                            <label for="gramsPerPouch" data-i18n="gramsPerPouch">Grams per Pouch
+                                                (B)</label>
                                             <input type="number" id="gramsPerPouch" value="450">
                                         </div>
                                         <div class="input-group">
-                                            <label for="seedRatio">Seed Ratio (F)</label>
+                                            <label for="seedRatio" data-i18n="seedRatio">Seed Ratio (F)</label>
                                             <input type="number" id="seedRatio" value="2" step="0.1">
-                                            <small>Safety factor for germination</small>
+                                            <small data-i18n="safetyFactor">Safety factor for germination</small>
                                         </div>
                                     </div>
                                 </details>
 
                                 <!-- Action Button -->
-                                <button id="calcBtn" class="primary-btn">Calculate Seeds</button>
+                                <button id="calcBtn" class="primary-btn" data-i18n="calculateSeeds">Calculate
+                                    Seeds</button>
 
                                 <!-- Results Section -->
                                 <section id="resultSection" class="result-section hidden" style="margin-top: 24px;">
                                     <div class="card result-card">
-                                        <h3>Pouches Needed</h3>
+                                        <h3 data-i18n="pouchesNeeded">Pouches Needed</h3>
                                         <div class="big-number" id="pouchResult">0</div>
 
                                         <div class="breakdown">
                                             <div class="breakdown-item">
-                                                <span>Total Seeds (N)</span>
+                                                <span data-i18n="totalSeeds">Total Seeds (N)</span>
                                                 <strong id="totalSeeds">0</strong>
                                             </div>
                                             <div class="breakdown-item">
-                                                <span>Seeds/Pouch (Q)</span>
+                                                <span data-i18n="seedsPerPouch">Seeds/Pouch (Q)</span>
                                                 <strong id="seedsPerPouch">0</strong>
                                             </div>
                                             <div class="breakdown-item">
-                                                <span>Total Grams</span>
+                                                <span data-i18n="totalGrams">Total Grams</span>
                                                 <strong id="totalGrams">0</strong>
                                             </div>
                                         </div>
@@ -376,62 +412,65 @@
                 <!-- Yield Calculator Column -->
                 <div class="calculator-column">
                     <section class="card input-card">
-                        <h2 id="yieldToggle" class="calc-toggle collapsed">Yield Calculator</h2>
+                        <h2 id="yieldToggle" class="calc-toggle collapsed" data-i18n="yieldCalculator">Yield Calculator
+                        </h2>
 
                         <div id="yieldContent" class="calc-content hidden">
                             <div style="margin-top: 16px;">
                                 <div class="input-group">
-                                    <label for="yieldLandSize">Land Size (Acres)</label>
+                                    <label for="yieldLandSize" data-i18n="landSize">Land Size (Acres)</label>
                                     <input type="number" id="yieldLandSize" value="1" min="0.1" step="0.1">
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="yieldRowDist">Line To Line distance (ft)</label>
+                                    <label for="yieldRowDist" data-i18n="rowDist">Line To Line distance (ft)</label>
                                     <input type="number" id="yieldRowDist" placeholder="e.g. 2" step="0.5">
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="yieldPlantDist">Plant to Plant distance (ft)</label>
+                                    <label for="yieldPlantDist" data-i18n="plantDist">Plant to Plant distance
+                                        (ft)</label>
                                     <input type="number" id="yieldPlantDist" placeholder="e.g. 1" step="0.5">
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="bollWeight">10 Boll Cotton Weight (gm)</label>
+                                    <label for="bollWeight" data-i18n="bollWeight">10 Boll Cotton Weight (gm)</label>
                                     <input type="number" id="bollWeight" value="40" step="1">
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="avgBolls">Average Bolls on Plant</label>
+                                    <label for="avgBolls" data-i18n="avgBolls">Average Bolls on Plant</label>
                                     <input type="number" id="avgBolls" placeholder="e.g. 20" step="1">
                                 </div>
 
-                                <button id="yieldCalcBtn" class="primary-btn">Calculate Yield</button>
+                                <button id="yieldCalcBtn" class="primary-btn" data-i18n="calculateYield">Calculate
+                                    Yield</button>
 
                                 <section id="yieldResultSection" class="result-section hidden"
                                     style="margin-top: 24px;">
                                     <div class="card result-card">
-                                        <h3>Total Yield</h3>
+                                        <h3 data-i18n="totalYield">Total Yield</h3>
                                         <div class="big-number" id="yieldResult">0 Q</div>
 
                                         <div class="breakdown">
                                             <div class="breakdown-item">
-                                                <span>Yield per Acre</span>
+                                                <span data-i18n="yieldPerAcre">Yield per Acre</span>
                                                 <strong id="yieldPerAcre">0 Q</strong>
                                             </div>
                                             <div class="breakdown-item">
-                                                <span>Total Yield (Mann)</span>
+                                                <span data-i18n="yieldMann">Total Yield (Mann)</span>
                                                 <strong id="yieldMann">0 મણ</strong>
                                             </div>
                                             <div class="breakdown-item">
-                                                <span>Total Plants</span>
+                                                <span data-i18n="totalPlants">Total Plants</span>
                                                 <strong id="totalPlants">0</strong>
                                             </div>
                                             <div class="breakdown-item">
-                                                <span>Total Bolls</span>
+                                                <span data-i18n="totalBolls">Total Bolls</span>
                                                 <strong id="totalBolls">0</strong>
                                             </div>
                                             <div class="breakdown-item">
-                                                <span>1 Boll Weight</span>
+                                                <span data-i18n="oneBollWeight">1 Boll Weight</span>
                                                 <strong id="oneBollWeight">0 g</strong>
                                             </div>
                                         </div>
@@ -445,9 +484,9 @@
         </main>
 
         <footer>
-            <p>© 2025 Seed Master App</p>
-            <p style="margin-top: 5px; font-weight: 600; color: var(--primary);">SHIVAM AGRI BUSINESS CENTER ,
-                8347605837</p>
+            <p data-i18n="footerCopyright">© 2025 Seed Master App</p>
+            <p style="margin-top: 5px; font-weight: 600; color: var(--primary);" data-i18n="footerContact">SHIVAM AGRI
+                BUSINESS CENTER , 8347605837</p>
         </footer>
     </div>
 
@@ -455,10 +494,131 @@
         // Constants
         const SQFEET_PER_ACRE = 43560; // C
 
+        // Translations
+        const translations = {
+            en: {
+                appTitle: '🌱 Seed Master',
+                subtitle: 'Precision Farming Calculator',
+                installApp: '📲 Install App',
+                seedCalculator: 'Seed Calculator',
+                landSize: 'Land Size (Acres)',
+                rowDist: 'Line To Line distance (ft)',
+                plantDist: 'Plant to Plant distance (ft)',
+                advancedSettings: 'Advanced Settings ⚙️',
+                seedsPerGram: 'Seeds per Gram (A)',
+                gramsPerPouch: 'Grams per Pouch (B)',
+                seedRatio: 'Seed Ratio (F)',
+                safetyFactor: 'Safety factor for germination',
+                calculateSeeds: 'Calculate Seeds',
+                pouchesNeeded: 'Pouches Needed',
+                totalSeeds: 'Total Seeds (N)',
+                seedsPerPouch: 'Seeds/Pouch (Q)',
+                totalGrams: 'Total Grams',
+                yieldCalculator: 'Yield Calculator',
+                bollWeight: '10 Boll Cotton Weight (gm)',
+                avgBolls: 'Average Bolls on Plant',
+                calculateYield: 'Calculate Yield',
+                totalYield: 'Total Yield',
+                yieldPerAcre: 'Yield per Acre',
+                yieldMann: 'Total Yield (Mann)',
+                totalPlants: 'Total Plants',
+                totalBolls: 'Total Bolls',
+                oneBollWeight: '1 Boll Weight',
+                footerCopyright: '© 2025 Seed Master App',
+                footerContact: 'SHIVAM AGRI BUSINESS CENTER , 8347605837',
+                alertSeed: 'Please enter valid positive numbers for Land Size, Line To Line distance, and Plant to Plant distance.',
+                alertYield: 'Please enter valid positive numbers for all Yield Calculator fields.'
+            },
+            gu: {
+                appTitle: '🌱 સીડ માસ્ટર',
+                subtitle: 'સચોટ ખેતી કેલ્ક્યુલેટર',
+                installApp: '📲 એપ ઇન્સ્ટોલ કરો',
+                seedCalculator: 'બિયારણ કેલ્ક્યુલેટર',
+                landSize: 'જમીનનું માપ (એકર)',
+                rowDist: 'બે લાઈન વચ્ચેનું અંતર (ફૂટ)',
+                plantDist: 'બે છોડ વચ્ચેનું અંતર (ફૂટ)',
+                advancedSettings: 'એડવાન્સ્ડ સેટિંગ્સ ⚙️',
+                seedsPerGram: 'બીજ પ્રતિ ગ્રામ (A)',
+                gramsPerPouch: 'ગ્રામ પ્રતિ થેલી (B)',
+                seedRatio: 'બીજ રેશિયો (F)',
+                safetyFactor: 'અંકુરણ માટે સુરક્ષા પરિબળ',
+                calculateSeeds: 'બિયારણની ગણતરી કરો',
+                pouchesNeeded: 'જરૂરી થેલીઓ',
+                totalSeeds: 'કુલ બીજ (N)',
+                seedsPerPouch: 'બીજ/થેલી (Q)',
+                totalGrams: 'કુલ ગ્રામ',
+                yieldCalculator: 'ઉત્પાદન કેલ્ક્યુલેટર',
+                bollWeight: '10 જીંડવા ના રૂઈ નું વજન (ગ્રામ)',
+                avgBolls: 'છોડ પર સરેરાશ જીંડવા',
+                calculateYield: 'ઉત્પાદનની ગણતરી કરો',
+                totalYield: 'કુલ ઉત્પાદન',
+                yieldPerAcre: 'એકર દીઠ ઉત્પાદન',
+                yieldMann: 'કુલ ઉત્પાદન (મણ)',
+                totalPlants: 'કુલ છોડ',
+                totalBolls: 'કુલ જીંડવા',
+                oneBollWeight: '1 જીંડવા નું વજન',
+                footerCopyright: '© 2025 સીડ માસ્ટર એપ',
+                footerContact: 'શિવમ એગ્રી બિઝનેસ સેન્ટર , 8347605837',
+                alertSeed: 'કૃપા કરીને જમીનનું માપ, લાઈન અને છોડના અંતર માટે માન્ય નંબરો દાખલ કરો.',
+                alertYield: 'કૃપા કરીને ઉત્પાદન કેલ્ક્યુલેટરના તમામ ક્ષેત્રો માટે માન્ય નંબરો દાખલ કરો.'
+            },
+            hi: {
+                appTitle: '🌱 सीड मास्टर',
+                subtitle: 'सटीक खेती कैलकुलेटर',
+                installApp: '📲 ऐप इंस्टॉल करें',
+                seedCalculator: 'बीज कैलकुलेटर',
+                landSize: 'जमीन का आकार (एकड़)',
+                rowDist: 'लाइन से लाइन की दूरी (फीट)',
+                plantDist: 'पौधे से पौधे की दूरी (फीट)',
+                advancedSettings: 'एडवांस्ड सेटिंग्स ⚙️',
+                seedsPerGram: 'बीज प्रति ग्राम (A)',
+                gramsPerPouch: 'ग्राम प्रति थैली (B)',
+                seedRatio: 'बीज अनुपात (F)',
+                safetyFactor: 'अंकुरण के लिए सुरक्षा कारक',
+                calculateSeeds: 'बीज की गणना करें',
+                pouchesNeeded: 'आवश्यक थैलियां',
+                totalSeeds: 'कुल बीज (N)',
+                seedsPerPouch: 'बीज/थैली (Q)',
+                totalGrams: 'कुल ग्राम',
+                yieldCalculator: 'उपज कैलकुलेटर',
+                bollWeight: '10 कॉटन बॉल रूई का वजन (ग्राम)',
+                avgBolls: 'पौधे पर औसत गूलर',
+                calculateYield: 'उपज की गणना करें',
+                totalYield: 'कुल उपज',
+                yieldPerAcre: 'प्रति एकड़ उपज',
+                yieldMann: 'कुल उपज (मण)',
+                totalPlants: 'कुल पौधे',
+                totalBolls: 'कुल गूलर',
+                oneBollWeight: '1 गूलर का वजन',
+                footerCopyright: '© 2025 सीड मास्टर ऐप',
+                footerContact: 'शिवम एग्री बिजनेस सेंटर , 8347605837',
+                alertSeed: 'कृपया जमीन का आकार, लाइन और पौधे की दूरी के लिए मान्य संख्या दर्ज करें।',
+                alertYield: 'कृपया उपज कैलकुलेटर के सभी क्षेत्रों के लिए मान्य संख्या दर्ज करें।'
+            }
+        };
+
+        let currentLang = 'en';
+
         document.addEventListener('DOMContentLoaded', () => {
             const calcBtn = document.getElementById('calcBtn');
             const yieldCalcBtn = document.getElementById('yieldCalcBtn');
             const installBtn = document.getElementById('installBtn');
+            const languageSelector = document.getElementById('languageSelector');
+
+            // Initialize Language
+            const savedLang = localStorage.getItem('seedMasterLang');
+            if (savedLang && translations[savedLang]) {
+                currentLang = savedLang;
+                languageSelector.value = currentLang;
+            }
+            updateLanguage(currentLang);
+
+            // Language Change Event
+            languageSelector.addEventListener('change', (e) => {
+                currentLang = e.target.value;
+                localStorage.setItem('seedMasterLang', currentLang);
+                updateLanguage(currentLang);
+            });
 
             // Collapsible Logic
             const seedToggle = document.getElementById('seedToggle');
@@ -502,6 +662,17 @@
             });
         });
 
+        function updateLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    // Preserve emoji if present in original text but not in translation key (handled in translation object)
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
         function calculate() {
             // Inputs
             const P = parseFloat(document.getElementById('landSize').value) || 0;
@@ -515,7 +686,7 @@
 
             // Validation
             if (P <= 0 || D <= 0 || E <= 0) {
-                alert('Please enter valid positive numbers for Land Size, Line To Line distance, and Plant to Plant distance.');
+                alert(translations[currentLang].alertSeed);
                 return;
             }
 
@@ -573,7 +744,7 @@
 
             // Validation
             if (landSize <= 0 || rowDist <= 0 || plantDist <= 0 || bollWeight10 <= 0 || avgBolls <= 0) {
-                alert('Please enter valid positive numbers for all Yield Calculator fields.');
+                alert(translations[currentLang].alertYield);
                 return;
             }
 
@@ -617,7 +788,7 @@
             // Format numbers
             yieldResult.textContent = totalYield.toFixed(2) + ' Q';
             yieldPerAcreEl.textContent = yieldPerAcre.toFixed(2) + ' Q';
-            yieldMannEl.textContent = totalYieldMann.toFixed(2) + ' મણ';
+            yieldMannEl.textContent = totalYieldMann.toFixed(2) + (currentLang === 'en' ? ' મણ' : (currentLang === 'gu' ? ' મણ' : ' मण'));
             totalPlantsEl.textContent = Math.round(totalPlants).toLocaleString();
             totalBollsEl.textContent = Math.round(totalBolls).toLocaleString();
             oneBollWeightEl.textContent = oneBollWeight.toFixed(2) + ' g';
