@@ -796,8 +796,8 @@
             const oneBollWeightEl = document.getElementById('oneBollWeight');
 
             // Format numbers
-            yieldResult.textContent = totalYield.toFixed(2) + ' Quintal';
-            yieldPerAcreEl.textContent = yieldPerAcre.toFixed(2) + ' Quintal';
+            yieldResult.innerHTML = totalYield.toFixed(2) + ' <small style="font-size: 0.8em;">Quintal</small>';
+            yieldPerAcreEl.innerHTML = yieldPerAcre.toFixed(2) + ' <small style="font-size: 0.8em;">Quintal</small>';
             yieldMannEl.textContent = totalYieldMann.toFixed(2) + (currentLang === 'en' ? ' મણ' : (currentLang === 'gu' ? ' મણ' : ' मण'));
             totalPlantsEl.textContent = Math.round(totalPlants).toLocaleString();
             totalBollsEl.textContent = Math.round(totalBolls).toLocaleString();
