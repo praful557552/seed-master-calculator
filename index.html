@@ -815,16 +815,13 @@
             const visitorCountEl = document.getElementById('visitorCount');
 
             try {
-                // Using countapi.xyz
-                // key: seedmaster_calc_unique (namespace + key).namespace is implicit if not provided but better to be unique.
-                // We use 'hit' to increment.
-                // If you just want to view without incrementing, use 'get' or 'info'.
-                // Since user wants to count "whenever website is visited", 'hit' is appropriate on page load.
-                const response = await fetch('https://api.countapi.xyz/hit/seedmaster_calc_unique/visits');
+                // Using counterapi.dev (countapi.xyz is down)
+                // Namespace: seedmasterApp, Key: visits
+                const response = await fetch('https://api.counterapi.dev/v1/seedmasterApp/visits/up');
                 const data = await response.json();
 
-                if (data && data.value) {
-                    visitorCountEl.textContent = data.value.toLocaleString();
+                if (data && data.count !== undefined) {
+                    visitorCountEl.textContent = data.count.toLocaleString();
                     visitorCounter.classList.remove('hidden');
                 }
             } catch (error) {
