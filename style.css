@@ -182,6 +182,11 @@ footer {
     color: rgba(255, 255, 255, 0.2);
     font-size: 0.8rem;
     margin-top: auto;
+    padding-bottom: 10px;
+}
+
+.visitor-counter.hidden {
+    display: none;
 }
 
 @keyframes slideUp {

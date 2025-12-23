@@ -487,6 +487,10 @@
             <p data-i18n="footerCopyright">© 2025 Seed Master App</p>
             <p style="margin-top: 5px; font-weight: 600; color: var(--primary);" data-i18n="footerContact">SHIVAM AGRI
                 BUSINESS CENTER , 8347605837</p>
+            <div id="visitorCounter" class="visitor-counter hidden"
+                style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
+                <span data-i18n="totalVisits">Total Visits:</span> <span id="visitorCount">...</span>
+            </div>
         </footer>
     </div>
 
@@ -526,6 +530,7 @@
                 oneBollWeight: '1 Boll Weight',
                 footerCopyright: '© 2025 Seed Master App',
                 footerContact: 'SHIVAM AGRI BUSINESS CENTER , 8347605837',
+                totalVisits: 'Total Visits:',
                 alertSeed: 'Please enter valid positive numbers for Land Size, Line To Line distance, and Plant to Plant distance.',
                 alertYield: 'Please enter valid positive numbers for all Yield Calculator fields.'
             },
@@ -559,6 +564,7 @@
                 oneBollWeight: '1 જીંડવા નું વજન',
                 footerCopyright: '© 2025 સીડ માસ્ટર એપ',
                 footerContact: 'શિવમ એગ્રી બિઝનેસ સેન્ટર , 8347605837',
+                totalVisits: 'કુલ મુલાકાતો:',
                 alertSeed: 'કૃપા કરીને જમીનનું માપ, લાઈન અને છોડના અંતર માટે માન્ય નંબરો દાખલ કરો.',
                 alertYield: 'કૃપા કરીને ઉત્પાદન કેલ્ક્યુલેટરના તમામ ક્ષેત્રો માટે માન્ય નંબરો દાખલ કરો.'
             },
@@ -592,6 +598,7 @@
                 oneBollWeight: '1 गूलर का वजन',
                 footerCopyright: '© 2025 सीड मास्टर ऐप',
                 footerContact: 'शिवम एग्री बिजनेस सेंटर , 8347605837',
+                totalVisits: 'कुल विज़िट:',
                 alertSeed: 'कृपया जमीन का आकार, लाइन और पौधे की दूरी के लिए मान्य संख्या दर्ज करें।',
                 alertYield: 'कृपया उपज कैलकुलेटर के सभी क्षेत्रों के लिए मान्य संख्या दर्ज करें।'
             }
@@ -604,6 +611,9 @@
             const yieldCalcBtn = document.getElementById('yieldCalcBtn');
             const installBtn = document.getElementById('installBtn');
             const languageSelector = document.getElementById('languageSelector');
+
+            // Initialize Visitor Counter
+            updateVisitorCount();
 
             // Initialize Language
             const savedLang = localStorage.getItem('seedMasterLang');
@@ -798,6 +808,29 @@
 
             // Scroll to result
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        async function updateVisitorCount() {
+            const visitorCounter = document.getElementById('visitorCounter');
+            const visitorCountEl = document.getElementById('visitorCount');
+
+            try {
+                // Using countapi.xyz
+                // key: seedmaster_calc_unique (namespace + key).namespace is implicit if not provided but better to be unique.
+                // We use 'hit' to increment.
+                // If you just want to view without incrementing, use 'get' or 'info'.
+                // Since user wants to count "whenever website is visited", 'hit' is appropriate on page load.
+                const response = await fetch('https://api.countapi.xyz/hit/seedmaster_calc_unique/visits');
+                const data = await response.json();
+
+                if (data && data.value) {
+                    visitorCountEl.textContent = data.value.toLocaleString();
+                    visitorCounter.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.warn('Visitor counter failed to load:', error);
+                // Keep it hidden if it fails
+            }
         }
     </script>
 </body>
